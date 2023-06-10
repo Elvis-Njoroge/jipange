@@ -17,7 +17,6 @@ body {
   height:100%;
   background-color: #323F51;
   width:250px;
-  /* flex: 0 0 250px; */
 }
 
 .Sidebar .avatar{
@@ -25,7 +24,6 @@ body {
   width: 100px;
   margin-top: 50px;
   margin-bottom: 50px;
-  margin-left: 75px;
 }
 
 .SidebarList{
@@ -68,4 +66,53 @@ body {
 .component-container {
   flex: 1;
   padding: 20px;
+}
+
+.card {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+}
+
+.table-width {
+  width: 80%;
+}
+
+.form-container{
+  width:70%
+}
+
+.form-button{
+  margin: 15px;
+}
+
+.page-title {
+  display: flex;
+  justify-content: center;
+  margin: 25px;
+}
+
+.title-container{
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+#title{
+  color: #f1f1f1;
+}
+
+.avatar-container{
+  display: flex;
+  justify-content: center;
+}
+
+.add-button{
+  background-color: black;
+  margin-left: 8px 
+}
+
+.add-container{
+  display: flex;
+  justify-content: center;
 }

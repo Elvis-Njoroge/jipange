@@ -9,15 +9,21 @@ function Sidebar (){
     }
     return(
         <div className='Sidebar'>
+            <div className='title-container'>
+                <h3 id='title'>JiPange</h3>        
+            </div>
+            <div className='avatar-container'>
             <img
                 className='avatar'
+                alt='avatar'
                 src= {user.avatar}>
-            </img>
+            </img>                
+            </div>
             <ul className='SidebarList'>
             {SidebarData.map((val,key)=>{
                 return(<li key={key} 
                     className='row'
-                    id={window.location.pathname == val.link ? "active" : ""} 
+                    id={window.location.pathname === val.link ? "active" : ""} 
                     onClick={()=>{window.location.pathname =  val.link}}
                     >
                     <div id='icon'>{val.icon}</div>
