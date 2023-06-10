@@ -7,27 +7,39 @@ import Assets from './Components/Assets';
 import Budget from './Components/Budget';
 import Expenses from './Components/Expenses';
 import Goals from './Components/Goals'; 
+import Landingpage from './Components/Landingpage';
+import Login from './Components/Login'; 
 
 function App() {
   return (
     <Router>
       <div className='app-container'> 
-        <Sidebar/>
-        <div className='App'>
-          <div className='component-container'>
-            <Routes>
-              <Route path="/assets" element={<Assets />} />
-              <Route path="/budget" element={<Budget />} />
-              <Route path="/goals" element={<Goals />} />
-              <Route path="/expenses" element={<Expenses />} />
-              <Route path="/home" element={<Home />} />
-            </Routes>
-          </div>
-        </div>
+        <Routes>
+          <Route path='/' element={<Landingpage />} />
+          <Route
+            path='/*'
+            element={
+              <>
+                <Sidebar />
+                <div className='App'>
+                  <div className='component-container'>
+                    <Routes>
+                      <Route path='/home' element={<Home />} />
+                      <Route path='/assets' element={<Assets />} />
+                      <Route path='/budget' element={<Budget />} />
+                      <Route path='/expenses' element={<Expenses />} />
+                      <Route path='/goals' element={<Goals />} />
+                      <Route path='/login' element={<Login />} />
+                    </Routes>
+                  </div>
+                </div>
+              </>
+            }
+          />
+        </Routes>
       </div>
     </Router>
   );
 }
 
 export default App;
-
