@@ -3,6 +3,10 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Budget = () => {
+    const[description, setDescription]=useState('')
+    const[duration, setDuration]=useState('')
+    const[amount, setAmount]=useState('')
+
   const [showForm, setShowForm] = useState(false);
 
     const budgets=[
@@ -65,22 +69,17 @@ const Budget = () => {
           <Row className="align-items-end">
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder=" Desscription"/>
+                <Form.Control type="text" placeholder=" Description" onChange={(e) => setDescription(e.target.value)}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder="Duration"/>
+                <Form.Control type="text" placeholder="Duration" onChange={(e) => setDuration(e.target.value)}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder="Deadline"/>
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group>
-                <Form.Control type="number" placeholder="Amount"/>
+                <Form.Control type="number" placeholder="Amount" onChange={(e) => setAmount(e.target.value)}/>
               </Form.Group>
             </Col>
           </Row>

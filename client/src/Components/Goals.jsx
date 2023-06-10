@@ -6,6 +6,11 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Goals =()=>{
 
+    const[description, setDescription]=useState('')
+    const[duration, setDuration]=useState('')
+    const[amount, setAmount]=useState('')
+    const[deadline, setDeadline]=useState('')
+
 const toggleForm = () => {
     setShowForm(!showForm);
 };
@@ -103,22 +108,22 @@ return(
           <Row className="align-items-end">
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder=" Desscription"/>
+                <Form.Control type="text"  onChange={(e) => setDescription (e.target.value)} placeholder=" Description"/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder="Duration"/>
+                <Form.Control type="text"  onChange={(e) => setDuration(e.target.value)} placeholder="Duration"/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="date" placeholder="Deadline"/>
+                <Form.Control type="date"  onChange={(e) => setDeadline(e.target.value)} placeholder="Deadline"/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="number" placeholder="Amount"/>
+                <Form.Control type="number"  onChange={(e) => setAmount(e.target.value)} placeholder="Amount"/>
               </Form.Group>
             </Col>
           </Row>

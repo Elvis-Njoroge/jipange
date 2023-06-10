@@ -1,7 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Container, Table, Form, Button, Row, Col } from 'react-bootstrap';
 
 const Assets =()=>{
+    
+    const[name, setName]=useState('')
+    const[category, setCategory]=useState('')
+    const[location, setLocation]=useState('')
+    const[value, setValue]=useState('')
+
 
 const assets=[
     {

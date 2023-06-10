@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useState}  from 'react';
 import { Container, Table, Form, Button, Row, Col } from 'react-bootstrap';
 
 const Expenses = () => {
+
+    const[description, setDescription]=useState('')
+    const[category, setCategory]=useState('')
+    const[amount, setAmount]=useState('')
+    const[date, setDate]=useState('')
+
   const expenses = [
     {
       id: 1,
@@ -36,22 +42,22 @@ const Expenses = () => {
           <Row className="align-items-end">
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder="Description" />
+                <Form.Control  onChange={(e) => setDescription(e.target.value)} type="text" placeholder="Description" />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder="Category" />
+                <Form.Control type="text"  onChange={(e) => setCategory(e.target.value)} placeholder="Category" />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="number" placeholder="Amount" />
+                <Form.Control type="number"  onChange={(e) => setAmount(e.target.value)} placeholder="Amount" />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="date" placeholder="Date" />
+                <Form.Control type="date"  onChange={(e) => setDate(e.target.value)} placeholder="Date" />
               </Form.Group>
             </Col>
           </Row>
