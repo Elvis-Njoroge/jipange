@@ -2,35 +2,63 @@ import React, {useState}  from 'react';
 import { Container, Table, Form, Button, Row, Col } from 'react-bootstrap';
 
 const Expenses = () => {
-
     const[description, setDescription]=useState('')
     const[category, setCategory]=useState('')
     const[amount, setAmount]=useState('')
     const[date, setDate]=useState('')
+    // const[expenses,setExpenses] =useState([])
 
-  const expenses = [
-    {
-      id: 1,
-      description: 'kfc',
-      category: 'food',
-      amount: 3000,
-      date: new Date(),
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const requestBody= {
+      expense:{
+        description: description,
+        category: category, 
+        amount: amount, 
+        date: date,
+      },
+    };
+
+    fetch(``, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-    {
-      id: 2,
-      description: 'Drinks',
-      category: 'food',
-      amount: 1440,
-      date: new Date(),
-    },
-    {
-      id: 3,
-      description: 'Naivasha trip',
-      category: 'recreational',
-      amount: 80000,
-      date: new Date(),
-    },
-  ];
+    body: JSON.stringify(requestBody),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert(data.message);
+      // setExpenses(data)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  };  
+
+    const expenses = [
+        {
+        id: 1,
+        description: 'kfc',
+        category: 'food',
+        amount: 3000,
+        date: new Date(),
+        },
+        {
+        id: 2,
+        description: 'Drinks',
+        category: 'food',
+        amount: 1440,
+        date: new Date(),
+        },
+        {
+        id: 3,
+        description: 'Naivasha trip',
+        category: 'recreational',
+        amount: 80000,
+        date: new Date(),
+        },
+    ];
 
   return (
     <>
@@ -42,22 +70,22 @@ const Expenses = () => {
           <Row className="align-items-end">
             <Col>
               <Form.Group>
-                <Form.Control  onChange={(e) => setDescription(e.target.value)} type="text" placeholder="Description" />
+                <Form.Control  onChange={(e) => setDescription(e.target.value)} type="text" value={description} placeholder="Description" />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="text"  onChange={(e) => setCategory(e.target.value)} placeholder="Category" />
+                <Form.Control type="text"  onChange={(e) => setCategory(e.target.value)} placeholder="Category" value={category} />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="number"  onChange={(e) => setAmount(e.target.value)} placeholder="Amount" />
+                <Form.Control type="number"  onChange={(e) => setAmount(e.target.value)} placeholder="Amount" value={amount}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="date"  onChange={(e) => setDate(e.target.value)} placeholder="Date" />
+                <Form.Control type="date"  onChange={(e) => setDate(e.target.value)} placeholder="Date" value={date}/>
               </Form.Group>
             </Col>
           </Row>

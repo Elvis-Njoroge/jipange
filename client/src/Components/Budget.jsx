@@ -6,8 +6,7 @@ const Budget = () => {
     const[description, setDescription]=useState('')
     const[duration, setDuration]=useState('')
     const[amount, setAmount]=useState('')
-
-  const [showForm, setShowForm] = useState(false);
+    const [showForm, setShowForm] = useState(false);
 
     const budgets=[
         {
@@ -46,10 +45,34 @@ const Budget = () => {
     setShowForm(!showForm);
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const requestBody= {
+      budget:{
+        description: description, 
+        duration: duration, 
+        amount: amount,
+      },
+    };
+
+    fetch(``, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert(data.message);
+      // setBudgets(data)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
  
-  };
+  };    
+
 
   return (
     <>
@@ -69,17 +92,17 @@ const Budget = () => {
           <Row className="align-items-end">
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder=" Description" onChange={(e) => setDescription(e.target.value)}/>
+                <Form.Control type="text" placeholder=" Description" value={description} onChange={(e) => setDescription(e.target.value)}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder="Duration" onChange={(e) => setDuration(e.target.value)}/>
+                <Form.Control type="text" placeholder="Duration" value={duration} onChange={(e) => setDuration(e.target.value)}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="number" placeholder="Amount" onChange={(e) => setAmount(e.target.value)}/>
+                <Form.Control type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)}/>
               </Form.Group>
             </Col>
           </Row>

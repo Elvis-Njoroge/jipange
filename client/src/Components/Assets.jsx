@@ -2,11 +2,42 @@ import React, {useState} from 'react'
 import { Container, Table, Form, Button, Row, Col } from 'react-bootstrap';
 
 const Assets =()=>{
-    
+
     const[name, setName]=useState('')
     const[category, setCategory]=useState('')
     const[location, setLocation]=useState('')
     const[value, setValue]=useState('')
+    // const[assets,setAssets]=useState([])
+
+
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const requestBody= {
+      asset:{
+        name: name,
+        category: category, 
+        value: value, 
+        location: location,
+      },
+    };
+
+    fetch(``, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert(data.message);
+      // setAssets([])
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  };    
 
 
 const assets=[
@@ -44,22 +75,22 @@ return(
           <Row className="align-items-end">
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder="Name"/>
+                <Form.Control type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="text" placeholder="Category"/>
+                <Form.Control type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="location" placeholder="Location"/>
+                <Form.Control type="text" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Control type="number" placeholder="Value"/>
+                <Form.Control type="number" placeholder="Value" value={value} onChange={(e) => setValue(e.target.value)}/>
               </Form.Group>
             </Col>
           </Row>
