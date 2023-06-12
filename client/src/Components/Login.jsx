@@ -9,11 +9,17 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSignUpClick = () => {
-        setShowSignUpForm(!showSignUpForm);
+    setShowSignUpForm(!showSignUpForm);
   };
 
 const handleFormSubmit = (e) => {
   e.preventDefault();
+  const url= showSignUpForm?{
+    
+  }:{
+
+  }
+
   const requestBody = showSignUpForm
     ? {
         user: {
@@ -29,7 +35,7 @@ const handleFormSubmit = (e) => {
         },
       };
 
-  fetch(``, {
+  fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +44,7 @@ const handleFormSubmit = (e) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      alert(data.message);
+      localStorage.setItem('jwt',data.jwt)
     })
     .catch((error) => {
       console.error('Error:', error);

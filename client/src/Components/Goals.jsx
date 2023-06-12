@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Container, Row, Col, Button, Form, ProgressBar } from 'react-bootstrap';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -8,6 +8,14 @@ const Goals =()=>{
     const[amount, setAmount]=useState('')
     const[deadline, setDeadline]=useState('')
     // const[goals,setGoals]=useState([])
+
+  useEffect(()=>{
+    fetch()
+    .then((r)=>r.json())
+    .then((data)=>{
+
+    })
+  },[])
 
   const toggleForm = () => {
       setShowForm(!showForm);

@@ -8,6 +8,14 @@ const Expenses = () => {
     const[date, setDate]=useState('')
     // const[expenses,setExpenses] =useState([])
 
+    useEffect(()=>{
+      fetch()
+      .then((r)=>r.json())
+      .then((data)=>{
+
+      })
+    },[])
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
     const requestBody= {

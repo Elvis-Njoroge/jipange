@@ -3,6 +3,14 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 function Home (){
 
+  useEffect(()=>{
+    fetch()
+    .then((r)=>r.json())
+    .then((data)=>{
+
+    })
+  },[])
+
 return(
     <>
     <Container fluid>

@@ -1,4 +1,4 @@
-class BudgetsController < ApplicationController
+class Api::v1::BudgetsController < ApplicationController
   before_action :set_budget, only: %i[ show update destroy ]
 
   # GET /budgets

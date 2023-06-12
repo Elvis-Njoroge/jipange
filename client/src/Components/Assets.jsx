@@ -9,7 +9,13 @@ const Assets =()=>{
     const[value, setValue]=useState('')
     // const[assets,setAssets]=useState([])
 
+    useEffect(()=>{
+      fetch()
+      .then((r)=>r.json())
+      .then((data)=>{
 
+      })
+    },[])
 
   const handleFormSubmit = (event) => {
     event.preventDefault();

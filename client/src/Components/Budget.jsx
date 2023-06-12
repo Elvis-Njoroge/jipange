@@ -8,6 +8,14 @@ const Budget = () => {
     const[amount, setAmount]=useState('')
     const [showForm, setShowForm] = useState(false);
 
+    useEffect(()=>{
+      fetch()
+      .then((r)=>r.json())
+      .then((data)=>{
+
+      })
+    },[])
+
     const budgets=[
         {
             id: 1,

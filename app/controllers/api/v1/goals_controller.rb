@@ -1,4 +1,4 @@
-class GoalsController < ApplicationController
+class Api::v1::GoalsController < ApplicationController
   before_action :set_goal, only: %i[ show update destroy ]
 
   # GET /goals
