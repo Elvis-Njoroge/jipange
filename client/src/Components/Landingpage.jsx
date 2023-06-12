@@ -1,9 +1,23 @@
-import React from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import React, {useState} from 'react';
+import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import FeatureCard from './FeatureCard';
+import Login from './Login';
+
 
 
 const Landingpage = () => {
+
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const handleCloseLoginModal = () => {
+    setShowLoginModal(false);
+  };
+
+  const handleOpenLoginModal = () => {
+    setShowLoginModal(true);
+  };
+
+
   const features = [
     {
       title: 'Expense Tracking',
@@ -34,10 +48,11 @@ const Landingpage = () => {
               <Col md={6}>
                 <h1>Take Control of Your Finances</h1>
                 <p>Start managing your personal budget and achieving your financial goals with our powerful web app.</p>
-                <Button variant="primary">Get Started</Button>
+                <p>Already a member? <Button onClick={handleOpenLoginModal} variant="primary">Log in</Button> </p>
+                {/*  */}
               </Col>
               <Col md={6}>
-                <img src="" alt="Hero" />
+                <img src="https://discovertemplate.com/wp-content/uploads/2020/09/DT_G33_Finance-Animated-GIF-Icon-pack.gif" alt="Hero" style={{width:'450px', marginBottom:'10px'}} />
               </Col>
             </Row>
           </Container>
@@ -58,10 +73,18 @@ const Landingpage = () => {
           <Container>
             <h2>Ready to Get Started?</h2>
             <p>Create your account today and experience the benefits of our personal finance web app.</p>
-            <Button onClick={()=>{window.location.pathname = '/login'}} variant="primary">Sign Up</Button>
+            <Button onClick={handleOpenLoginModal} variant="primary">Sign Up</Button>
           </Container>
         </div>
       </div>
+      <Modal show={showLoginModal} onHide={handleCloseLoginModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Login/>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

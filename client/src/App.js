@@ -8,7 +8,6 @@ import Budget from './Components/Budget';
 import Expenses from './Components/Expenses';
 import Goals from './Components/Goals'; 
 import Landingpage from './Components/Landingpage';
-import Login from './Components/Login'; 
 
 function App() {
   return (
@@ -29,7 +28,6 @@ function App() {
                       <Route path='/budget' element={<Budget />} />
                       <Route path='/expenses' element={<Expenses />} />
                       <Route path='/goals' element={<Goals />} />
-                      <Route path='/login' element={<Login />} />
                     </Routes>
                   </div>
                 </div>

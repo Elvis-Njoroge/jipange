@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import { FaChartPie, FaBullseye } from 'react-icons/fa';
 
 const FeatureCard = ({ feature }) => {
   return (
