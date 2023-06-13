@@ -4,6 +4,7 @@ class CreateBudgets < ActiveRecord::Migration[7.0]
       t.string :description
       t.integer :duration
       t.decimal :amount
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end

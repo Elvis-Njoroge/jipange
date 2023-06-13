@@ -14,12 +14,9 @@ const Login = () => {
 
 const handleFormSubmit = (e) => {
   e.preventDefault();
-  const url= showSignUpForm?{
-    
-  }:{
-
-  }
-
+  const signUpUrl = '/api/v1/users';
+  const loginUrl = '/api/v1/login';
+  const url = showSignUpForm ? signUpUrl : loginUrl;
   const requestBody = showSignUpForm
     ? {
         user: {
@@ -35,21 +32,24 @@ const handleFormSubmit = (e) => {
         },
       };
 
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      localStorage.setItem('jwt',data.jwt)
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-};
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          localStorage.setItem('jwt', data.jwt);
+          window.location.pathname='/home'
+          alert(`welcome ${data.user.username}`)
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    };
+
 
   return (
 
@@ -82,7 +82,7 @@ const handleFormSubmit = (e) => {
         </div>
         </>
         )}
-        <button type="submit"> {showSignUpForm ? 'Sign Up' : 'Login'}</button>
+        <button onClick={handleFormSubmit} type="submit"> {showSignUpForm ? 'Sign Up' : 'Login'}</button>
       </form>
       <button className="signup-button" onClick={handleSignUpClick}>{showSignUpForm ? 'Login' : 'Sign Up'}</button>
     </div>

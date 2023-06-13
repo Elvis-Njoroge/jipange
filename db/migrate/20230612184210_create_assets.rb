@@ -5,6 +5,7 @@ class CreateAssets < ActiveRecord::Migration[7.0]
       t.string :location
       t.decimal :value
       t.integer :category
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end

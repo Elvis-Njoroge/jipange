@@ -1,10 +1,9 @@
-class Api::v1::AssetsController < ApplicationController
+class Api::V1::AssetsController < ApplicationController
   before_action :set_asset, only: %i[ show update destroy ]
 
   # GET /assets
   def index
-    @assets = Asset.all
-
+    @assets = current_user.assets.all
     render json: @assets
   end
 
@@ -15,13 +14,9 @@ class Api::v1::AssetsController < ApplicationController
 
   # POST /assets
   def create
-    @asset = Asset.new(asset_params)
-
-    if @asset.save
-      render json: @asset, status: :created, location: @asset
-    else
-      render json: @asset.errors, status: :unprocessable_entity
-    end
+    current_user = User.find(1)
+    @asset = current_user.assets.create!(asset_params)
+    render json: @asset, status: :created
   end
 
   # PATCH/PUT /assets/1
@@ -39,12 +34,12 @@ class Api::v1::AssetsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_asset
       @asset = Asset.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+
     def asset_params
       params.require(:asset).permit(:name, :location, :value, :category)
     end
