@@ -7,6 +7,8 @@ gem 'jwt'
 
 gem 'bcrypt'
 
+gem 'foreman'
+
 gem 'figaro'
 
 gem 'pg'
