@@ -31,7 +31,7 @@ const Landingpage = () => {
     },
     {
       title: 'Asset Management',
-      description: 'Track your expenses and manage your budget with ease.',
+      description: 'List and manage your assets.',
       icon: 'fas fa-chart-pie',
     }
   ];
