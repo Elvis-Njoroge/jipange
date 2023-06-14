@@ -1,10 +1,16 @@
 class Api::V1::AuthController < ApplicationController
+  skip_before_action :authorized, only:[:create]
+
   def create
     if params[:user].present?
       authenticate_user
     else 
       render json: { error: 'Invalid login request' }, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+  
   end
 
   private

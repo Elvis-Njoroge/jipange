@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordInvalid, with: :rescue_from_record_invalid
   rescue_from ActiveRecord::RecordNotFound, with: :rescue_from_record_not_found
+  before_action :authorized
 
   require 'jwt'
   def encode_token(payload)
@@ -35,7 +36,7 @@ class ApplicationController < ActionController::API
         !!current_user
     end
 
-  def authorized_user
+  def authorized
     render json: { message: 'Please log in' }, status: :unauthorized unless user_logged_in?
   end
 

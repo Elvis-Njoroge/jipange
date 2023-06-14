@@ -3,13 +3,13 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 function Home (){
 
-  useEffect(()=>{
-    fetch()
-    .then((r)=>r.json())
-    .then((data)=>{
+  // useEffect(()=>{
+  //   fetch()
+  //   .then((r)=>r.json())
+  //   .then((data)=>{
 
-    })
-  },[])
+  //   })
+  // },[])
 
 return(
     <>

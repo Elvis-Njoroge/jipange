@@ -6,15 +6,32 @@ const Expenses = () => {
     const[category, setCategory]=useState('')
     const[amount, setAmount]=useState('')
     const[date, setDate]=useState('')
-    // const[expenses,setExpenses] =useState([])
+    const[expenses,setExpenses] =useState([])
+    const jwt = localStorage.getItem('jwt');
+    let userId = null;
+    const categoryOptions = ['food', 'transport', 'entertainment','housing','other'];
 
     useEffect(()=>{
-      fetch()
+    if (jwt) {
+      const tokenPayload = jwt.split('.')[1];
+      const decodedPayload = JSON.parse(atob(tokenPayload));
+      userId = decodedPayload.user_id;
+      fetchExpenses()
+    }     
+    },[])
+
+    const fetchExpenses = () =>{
+      fetch('/api/v1/expenses',{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
       .then((r)=>r.json())
       .then((data)=>{
-
+        setExpenses(data)
       })
-    },[])
+    }
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -27,46 +44,27 @@ const Expenses = () => {
       },
     };
 
-    fetch(``, {
+    fetch('/api/v1/expenses', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`,    
     },
     body: JSON.stringify(requestBody),
   })
     .then((response) => response.json())
     .then((data) => {
-      alert(data.message);
-      // setExpenses(data)
+      fetchExpenses()
+      setAmount('')
+      setCategory('');
+      setDescription('')
+      setDate('')     
     })
     .catch((error) => {
       console.error('Error:', error);
     });
   };  
 
-    const expenses = [
-        {
-        id: 1,
-        description: 'kfc',
-        category: 'food',
-        amount: 3000,
-        date: new Date(),
-        },
-        {
-        id: 2,
-        description: 'Drinks',
-        category: 'food',
-        amount: 1440,
-        date: new Date(),
-        },
-        {
-        id: 3,
-        description: 'Naivasha trip',
-        category: 'recreational',
-        amount: 80000,
-        date: new Date(),
-        },
-    ];
 
   return (
     <>
@@ -81,11 +79,16 @@ const Expenses = () => {
                 <Form.Control  onChange={(e) => setDescription(e.target.value)} type="text" value={description} placeholder="Description" />
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Group>
-                <Form.Control type="text"  onChange={(e) => setCategory(e.target.value)} placeholder="Category" value={category} />
-              </Form.Group>
-            </Col>
+          <Col>
+            <Form.Group>
+              <Form.Select value={category} onChange={(e) => setCategory(e.target.value)}>
+                <option value="">Category</option>
+                {categoryOptions.map((option, index) => (
+                  <option key={index} value={option}>{option}</option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+          </Col>
             <Col>
               <Form.Group>
                 <Form.Control type="number"  onChange={(e) => setAmount(e.target.value)} placeholder="Amount" value={amount}/>
@@ -98,7 +101,7 @@ const Expenses = () => {
             </Col>
           </Row>
             <Col className="d-flex justify-content-center form-button">
-              <Button variant="dark" type="submit">
+              <Button onClick={handleFormSubmit} variant="dark" type="submit">
                 Add Expense
               </Button>
             </Col>
@@ -120,7 +123,7 @@ const Expenses = () => {
                 <td>{expense.description}</td>
                 <td>{expense.category}</td>
                 <td>{expense.amount}</td>
-                <td>{expense.value}</td>
+                <td>{expense.date}</td>
               </tr>
             ))}
           </tbody>

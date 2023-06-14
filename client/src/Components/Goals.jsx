@@ -7,22 +7,33 @@ const Goals =()=>{
     const[duration, setDuration]=useState('')
     const[amount, setAmount]=useState('')
     const[deadline, setDeadline]=useState('')
-    // const[goals,setGoals]=useState([])
+    const jwt = localStorage.getItem('jwt');
+    const[goals,setGoals]=useState([])
+    const durationOptions = ['daily', 'weekly', 'monthly','yearly','other'];
 
   useEffect(()=>{
-    fetch()
+      fetchGoals()
+  },[])
+
+  const fetchGoals =()=>{
+    fetch('/api/v1/goals',{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwt}`,
+        },
+    })
     .then((r)=>r.json())
     .then((data)=>{
-
+      setGoals(data)
     })
-  },[])
+  }
 
   const toggleForm = () => {
       setShowForm(!showForm);
   };
 
   const [showForm, setShowForm] = useState(false);
-  const now = 40;
+  let now = null;
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -35,90 +46,27 @@ const Goals =()=>{
       },
     };
 
-    fetch(``, {
+    fetch('/api/v1/goals', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`,
     },
     body: JSON.stringify(requestBody),
   })
     .then((response) => response.json())
     .then((data) => {
-      // setGoals(data)
-      alert(data.message);
+      fetchGoals()
+      setDeadline('')
+      setDescription('')
+      setAmount('')
+      setDuration('')
     })
     .catch((error) => {
       console.error('Error:', error);
     });
   };  
 
-  const goals=[
-      {
-          id: 1,
-          description:'buy a car',
-          duration: 1,
-          amount: 3000,
-          deadline: new Date(),
-          progress: 10
-      },
-      {
-          id: 2,
-          description:'get a house',
-          duration: 1,
-          amount: 3000,
-          deadline: new Date(),
-          progress: 10
-        
-      },
-      {
-          id: 3,
-          description:'go to spain',
-          duration:2,
-          amount: 80000,
-          deadline: new Date(),
-          progress: 10
-      },
-      {
-          id: 4,
-          description:'get a bike',
-          duration:2,
-          amount: 80000,
-          deadline: new Date(),
-          progress: 10
-      },
-      {
-          id: 5,
-          description:'pay for my masters',
-          duration:2,
-          amount: 80000,
-          deadline: new Date(),
-          progress: 10
-      },
-      {
-          id:6,
-          description:'get a boat',
-          duration:2,
-          amount: 80000,
-          deadline: new Date(),
-          progress: 10
-      },
-      {
-          id:7,
-          description:'buy a rental property',
-          duration:2,
-          amount: 80000,
-          deadline: new Date(),
-          progress: 10
-      },
-      {
-          id:8,
-          description:'go on a vacation',
-          duration:2,
-          amount: 80000,
-          deadline: new Date(),
-          progress: 10
-      }
-  ]
 
 return(
     <>
@@ -141,11 +89,16 @@ return(
                 <Form.Control type="text"  onChange={(e) => setDescription (e.target.value)} placeholder=" Description" value={description}/>
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Group>
-                <Form.Control type="text"  onChange={(e) => setDuration(e.target.value)} placeholder="Duration" value={duration}/>
-              </Form.Group>
-            </Col>
+          <Col>
+            <Form.Group>
+              <Form.Select value={duration} onChange={(e) => setDuration(e.target.value)}>
+                <option value="">Duration</option>
+                {durationOptions.map((option, index) => (
+                  <option key={index} value={option}>{option}</option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+          </Col>
             <Col>
               <Form.Group>
                 <Form.Control type="number"  onChange={(e) => setAmount(e.target.value)} placeholder="Amount" value={amount}/>
@@ -158,7 +111,7 @@ return(
             </Col>
           </Row>
             <Col className="d-flex justify-content-center form-button">
-              <Button variant="dark" type="submit">
+              <Button onClick={handleFormSubmit} variant="dark" type="submit">
                 Add Goal
               </Button>
             </Col>
@@ -176,7 +129,7 @@ return(
                 <h6>{goals.deadline}</h6>
                 <div>
                 </div>
-                    <ProgressBar now={now} label={`${now}%`} visuallyHidden />
+                    <ProgressBar now={goal.progress} label={`${now}%`} visuallyHidden />
                 </div>
             </Col>
           ))}

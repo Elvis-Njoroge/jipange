@@ -7,46 +7,30 @@ const Budget = () => {
     const[duration, setDuration]=useState('')
     const[amount, setAmount]=useState('')
     const [showForm, setShowForm] = useState(false);
+    const [budgets,setBudgets]= useState([])
+    const jwt = localStorage.getItem('jwt');
+    let userId = null;
+    const durationOptions = ['daily', 'weekly', 'monthly','yearly','other'];
 
     useEffect(()=>{
-      fetch()
+    if (jwt) {
+      const tokenPayload = jwt.split('.')[1];
+      const decodedPayload = JSON.parse(atob(tokenPayload));
+      userId = decodedPayload.user_id;
+      fetchBudgets()
+    }},[])
+
+    const fetchBudgets=()=>[
+      fetch('/api/v1/budgets',{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwt}`,
+        },        
+      })
       .then((r)=>r.json())
       .then((data)=>{
-
+        setBudgets(data);
       })
-    },[])
-
-    const budgets=[
-        {
-            id: 1,
-            description:'weekly budget',
-            duration: 1,
-            amount: 3000,
-        },
-        {
-            id: 2,
-            description:'monthly',
-            duration: 1,
-            amount: 3000,    
-        },
-        {
-            id: 3,
-            description:'daily budget',
-            duration:2,
-            amount: 80000,
-        },
-        {
-            id: 4,
-            description:'3 month budget',
-            duration:2,
-            amount: 80000,
-        },
-        {
-            id: 5,
-            description:'6 month budget',
-            duration:2,
-            amount: 80000,
-        }
     ]
 
   const toggleForm = () => {
@@ -63,23 +47,25 @@ const Budget = () => {
       },
     };
 
-    fetch(``, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      alert(data.message);
-      // setBudgets(data)
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
- 
-  };    
+    fetch('/api/v1/budgets', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify(requestBody),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        fetchBudgets()
+        setDescription('')
+        setDuration('')
+        setAmount('')
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    };    
 
 
   return (
@@ -103,11 +89,16 @@ const Budget = () => {
                 <Form.Control type="text" placeholder=" Description" value={description} onChange={(e) => setDescription(e.target.value)}/>
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Group>
-                <Form.Control type="text" placeholder="Duration" value={duration} onChange={(e) => setDuration(e.target.value)}/>
-              </Form.Group>
-            </Col>
+          <Col>
+            <Form.Group>
+              <Form.Select value={duration} onChange={(e) => setDuration(e.target.value)}>
+                <option value="">Duration</option>
+                {durationOptions.map((option, index) => (
+                  <option key={index} value={option}>{option}</option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+          </Col>
             <Col>
               <Form.Group>
                 <Form.Control type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)}/>
@@ -115,7 +106,7 @@ const Budget = () => {
             </Col>
           </Row>
             <Col className="d-flex justify-content-center form-button">
-              <Button variant="dark" type="submit">
+              <Button onClick={handleFormSubmit} variant="dark" type="submit">
                 Create Budget
               </Button>
             </Col>

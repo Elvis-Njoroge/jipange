@@ -3,8 +3,7 @@ class Api::V1::ExpensesController < ApplicationController
 
   # GET /expenses
   def index
-    @expenses = Expense.all
-
+    @expenses = current_user.expenses.all
     render json: @expenses
   end
 
@@ -15,13 +14,8 @@ class Api::V1::ExpensesController < ApplicationController
 
   # POST /expenses
   def create
-    @expense = Expense.new(expense_params)
-
-    if @expense.save
-      render json: @expense, status: :created, location: @expense
-    else
-      render json: @expense.errors, status: :unprocessable_entity
-    end
+    @expense = current_user.expenses.create!(expense_params)
+    render json: @expense, status: :created
   end
 
   # PATCH/PUT /expenses/1

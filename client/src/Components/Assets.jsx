@@ -7,15 +7,31 @@ const Assets =()=>{
     const[category, setCategory]=useState('')
     const[location, setLocation]=useState('')
     const[value, setValue]=useState('')
-    // const[assets,setAssets]=useState([])
+    const[assets,setAssets]=useState([])
+    const jwt = localStorage.getItem('jwt');
+    let userId = null;
+    const categoryOptions = ['land', 'shares', 'bonds','real_estate','other'];
 
     useEffect(()=>{
-      fetch()
+    if (jwt) {
+      const tokenPayload = jwt.split('.')[1];
+      const decodedPayload = JSON.parse(atob(tokenPayload));
+      userId = decodedPayload.user_id;
+      fetchAssets()
+    }},[])
+
+    const fetchAssets = ()=>{
+      fetch('/api/v1/assets',{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
       .then((r)=>r.json())
       .then((data)=>{
-
+        setAssets(data)
       })
-    },[])
+    }
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -28,7 +44,7 @@ const Assets =()=>{
       },
     };
 
-    fetch(``, {
+    fetch('/api/v1/assets', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,38 +53,17 @@ const Assets =()=>{
   })
     .then((response) => response.json())
     .then((data) => {
-      alert(data.message);
-      // setAssets([])
+      fetchAssets()
+      setName('');
+      setCategory('');
+      setValue('');
+      setLocation('');
     })
     .catch((error) => {
       console.error('Error:', error);
     });
   };    
 
-
-const assets=[
-    {
-        id:1,
-        name:'kamulu land',
-        location:'kamulu',
-        category: 'land',
-        value: 300000
-    },
-    {
-        id:2,
-        name:'The FrenchMans Coffer',
-        location:'Westie',
-        category: 'real estate',
-        value: 1440000
-    },
-    {
-        id:3,
-        name:'Naivasha lake house',
-        location:'Naivasha',
-        category: 'real estate',
-        value: 800000
-    }
-]
 
 return(
     <>
@@ -84,11 +79,16 @@ return(
                 <Form.Control type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)}/>
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Group>
-                <Form.Control type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)}/>
-              </Form.Group>
-            </Col>
+          <Col>
+            <Form.Group>
+              <Form.Select value={category} onChange={(e) => setCategory(e.target.value)}>
+                <option value="">Category</option>
+                {categoryOptions.map((option, index) => (
+                  <option key={index} value={option}>{option}</option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+          </Col>
             <Col>
               <Form.Group>
                 <Form.Control type="text" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)}/>
@@ -101,33 +101,38 @@ return(
             </Col>
           </Row>
             <Col className="d-flex justify-content-center form-button">
-              <Button variant="dark" type="submit">
+              <Button onClick={handleFormSubmit} variant="dark" type="submit">
                 Add Asset
               </Button>
             </Col>
         </Form>
       </Container>
+
     <Container className="d-flex justify-content-center">
-      <Table className="table-width">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Location</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {assets.map((asset) => (
-            <tr key={asset.id}>
-              <td>{asset.name}</td>
-              <td>{asset.category}</td>
-              <td>{asset.location}</td>
-              <td>{asset.value}</td>
+      {assets.length >= 1 ? (
+        <Table className="table-width">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Value</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {assets.map((asset) => (
+              <tr key={asset.id}>
+                <td>{asset.name}</td>
+                <td>{asset.category}</td>
+                <td>{asset.location}</td>
+                <td>{asset.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <p>Assets are the way to accrue wealth</p>
+      )}
     </Container>  
     </>
 )

@@ -3,8 +3,7 @@ class Api::V1::GoalsController < ApplicationController
 
   # GET /goals
   def index
-    @goals = Goal.all
-
+    @goals = current_user.goals.all
     render json: @goals
   end
 
@@ -15,13 +14,8 @@ class Api::V1::GoalsController < ApplicationController
 
   # POST /goals
   def create
-    @goal = Goal.new(goal_params)
-
-    if @goal.save
-      render json: @goal, status: :created, location: @goal
-    else
-      render json: @goal.errors, status: :unprocessable_entity
-    end
+    @goal = current_user.goals.create!(goal_params)
+    render json: @goal, status: :created
   end
 
   # PATCH/PUT /goals/1
@@ -39,12 +33,11 @@ class Api::V1::GoalsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_goal
       @goal = Goal.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def goal_params
       params.require(:goal).permit(:description, :duration, :amount, :deadline)
     end

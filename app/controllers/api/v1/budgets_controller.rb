@@ -3,8 +3,7 @@ class Api::V1::BudgetsController < ApplicationController
 
   # GET /budgets
   def index
-    @budgets = Budget.all
-
+    @budgets = current_user.budgets.all
     render json: @budgets
   end
 
@@ -15,13 +14,8 @@ class Api::V1::BudgetsController < ApplicationController
 
   # POST /budgets
   def create
-    @budget = Budget.new(budget_params)
-
-    if @budget.save
-      render json: @budget, status: :created, location: @budget
-    else
-      render json: @budget.errors, status: :unprocessable_entity
-    end
+    @budget = current_user.budgets.create!(budget_params)
+    render json: @budget, status: :created
   end
 
   # PATCH/PUT /budgets/1

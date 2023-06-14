@@ -1,6 +1,6 @@
 class Api::V1::AssetsController < ApplicationController
   before_action :set_asset, only: %i[ show update destroy ]
-
+  
   # GET /assets
   def index
     @assets = current_user.assets.all
@@ -14,7 +14,6 @@ class Api::V1::AssetsController < ApplicationController
 
   # POST /assets
   def create
-    current_user = User.find(1)
     @asset = current_user.assets.create!(asset_params)
     render json: @asset, status: :created
   end
