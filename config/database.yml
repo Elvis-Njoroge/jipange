@@ -71,7 +71,10 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: jipange_production
-  username: jipange
-  password: <%= ENV["JIPANGE_DATABASE_PASSWORD"] %>
+  username: <%= ENV['DBUSER'] %>
+  password: <%= ENV['DBPASS'] %>
+
